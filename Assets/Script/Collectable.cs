@@ -1,18 +1,21 @@
 using UnityEngine;
+using System.Collections;
 
 public class Collectable : MonoBehaviour
 {
     public CollectableType collectableType;
-
+    public Powerup powerup;
+    public GameManager _gameManager;
     [SerializeField] private SpriteRenderer Sr;
+    [SerializeField] private SOScriptable collectableObject;
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
             ChangeRGB();
-
-            Destroy(gameObject);
+            Power();
         }
     }
 
@@ -31,6 +34,16 @@ public class Collectable : MonoBehaviour
                 break;
             case CollectableType.Red:
                 Sr.color = Color.red;
+                break;
+        }
+    }
+
+    public void Power()
+    {
+        switch (powerup)
+        {
+            case Powerup.DoubleJump:
+                Debug.Log("CanDoubleJump");
                 break;
         }
     }

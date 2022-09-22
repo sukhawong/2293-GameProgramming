@@ -1,0 +1,4 @@
+public enum Powerup
+{
+    DoubleJump,
+}
