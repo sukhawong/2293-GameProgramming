@@ -6,6 +6,8 @@ public class Collectibles : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private SOCollectibles collectibleObject;
     
+    [SerializeField] private AudioSource collectSoundEffect;
+
     private CollectibleType _collectibleType;
     private bool _isRespawnable;
 
@@ -14,16 +16,21 @@ public class Collectibles : MonoBehaviour
         SetCollectible();
     }
 
+    private void CollectSound()
+    {
+        collectSoundEffect.Play();
+    }
+    
     public CollectibleType GetCollectibleInfoOnContact()
     {
-        AudioManager.instance.PlayerSFX(7);
+        //AudioManager.instance.PlayerSFX(7);
+        CollectSound();
         gameObject.SetActive(false);
 
         if (_isRespawnable)
         {
             collectibleSpawner.StartRespawningCountdown();
         }
-
         return _collectibleType;
     }
     

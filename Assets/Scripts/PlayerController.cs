@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Checks")] 
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float extraGroundCheckDistance = 0.5f;
+
+    [SerializeField] private AudioSource jumpSoundEffect;
+    [SerializeField] private AudioSource deathSoundEffect;
     
     // Input Values
     private float _moveInput;
@@ -84,7 +87,8 @@ public class PlayerController : MonoBehaviour
             if (!_canDoubleJump) return; // If the player cannot double jump, return void. (Stop here)
             _canDoubleJump = false; // Else set double jump to false, then jump.
         }
-        AudioManager.instance.PlayerSFX(5);
+        jumpSoundEffect.Play();
+        //AudioManager.instance.PlayerSFX(5);
         Jump(jumpForce);
     }
 
@@ -141,9 +145,11 @@ public class PlayerController : MonoBehaviour
     
     public void TakeDamage()
     {
+        StartCoroutine(_gameManager.ProcessPlayerDeath());
         FindGameManager();
         _gameManager.ProcessPlayerDeath();
         _gameManager.DecreaseLife();
+        deathSoundEffect.Play();
     }
     
     #endregion

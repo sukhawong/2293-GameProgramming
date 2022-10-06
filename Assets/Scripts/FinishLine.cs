@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FinishLine : MonoBehaviour
 {
+    [SerializeField] private AudioSource nextLevelSoundEffect;
     private const string PlayerTag = "Player";
 
     private GameManager _gameManager;
@@ -16,15 +17,16 @@ public class FinishLine : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
+        nextLevelSoundEffect.Play();
         if (!col.CompareTag(PlayerTag)) return;
 
-        if (_gameManager.GetCurrentBuildIndex() == 1)
+        if (_gameManager.GetCurrentBuildIndex() < 3)
         {
-            _gameManager.LoadNextLevel();
+            StartCoroutine(_gameManager.LoadNextLevel());
         }
         else
         {
-            _gameManager.LoadScene(1);
+            StartCoroutine(_gameManager.LoadLevelone());
         }
     }
 }

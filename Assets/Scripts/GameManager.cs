@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -47,13 +48,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ProcessPlayerDeath()
+    public IEnumerator ProcessPlayerDeath()
     {
         UpdateLife();
+        yield return new WaitForSeconds(2f);
         LoadScene(GetCurrentBuildIndex());
     }
 
-    public void LoadNextLevel()
+    public IEnumerator LoadNextLevel()
     {
         UpdateLife();
         var nextSceneIndex = GetCurrentBuildIndex() + 1;
@@ -62,8 +64,15 @@ public class GameManager : MonoBehaviour
         {
             nextSceneIndex = 0;
         }
+        yield return new WaitForSeconds(2f);
         
         LoadScene(nextSceneIndex);
+    }
+
+    public IEnumerator LoadLevelone()
+    {
+        yield return new WaitForSeconds(2f);
+        LoadScene(1);
     }
 
     public int GetCurrentBuildIndex()
